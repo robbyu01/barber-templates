@@ -287,17 +287,95 @@
                 <div class="booking-steps">
                     <div class="step active" data-step="1">
                         <span class="step-number">1</span>
-                        <span class="step-label">Date & Time</span>
+                        <span class="step-label">Barber</span>
                     </div>
                     <div class="step-line"></div>
                     <div class="step" data-step="2">
                         <span class="step-number">2</span>
-                        <span class="step-label">Your Details</span>
+                        <span class="step-label">Date & Time</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Details</span>
                     </div>
                 </div>
 
-                <!-- Step 1: Calendar & Time Selection -->
+                <!-- Step 1: Barber Selection -->
                 <div class="booking-step" id="step1">
+                    <h3 class="step-title">Choose your barber</h3>
+                    <div class="barber-grid">
+                        <label class="barber-option">
+                            <input type="radio" name="barber" value="marcus">
+                            <div class="barber-card">
+                                <div class="barber-avatar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <circle cx="12" cy="8" r="4"/>
+                                        <path d="M4 21v-2a4 4 0 014-4h8a4 4 0 014 4v2"/>
+                                    </svg>
+                                </div>
+                                <div class="barber-info">
+                                    <span class="barber-name">Marcus</span>
+                                    <span class="barber-specialty">Fades & Designs</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="barber-option">
+                            <input type="radio" name="barber" value="james">
+                            <div class="barber-card">
+                                <div class="barber-avatar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <circle cx="12" cy="8" r="4"/>
+                                        <path d="M4 21v-2a4 4 0 014-4h8a4 4 0 014 4v2"/>
+                                    </svg>
+                                </div>
+                                <div class="barber-info">
+                                    <span class="barber-name">James</span>
+                                    <span class="barber-specialty">Classic Cuts</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="barber-option">
+                            <input type="radio" name="barber" value="devon">
+                            <div class="barber-card">
+                                <div class="barber-avatar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <circle cx="12" cy="8" r="4"/>
+                                        <path d="M4 21v-2a4 4 0 014-4h8a4 4 0 014 4v2"/>
+                                    </svg>
+                                </div>
+                                <div class="barber-info">
+                                    <span class="barber-name">Devon</span>
+                                    <span class="barber-specialty">Beard Work</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="barber-option">
+                            <input type="radio" name="barber" value="alex">
+                            <div class="barber-card">
+                                <div class="barber-avatar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <circle cx="12" cy="8" r="4"/>
+                                        <path d="M4 21v-2a4 4 0 014-4h8a4 4 0 014 4v2"/>
+                                    </svg>
+                                </div>
+                                <div class="barber-info">
+                                    <span class="barber-name">Alex</span>
+                                    <span class="barber-specialty">All Styles</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <button class="btn btn-primary btn-next" disabled data-next="2">
+                        <span>Continue</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Step 2: Calendar & Time Selection -->
+                <div class="booking-step hidden" id="step2">
                     <h3 class="step-title">Pick your date & time</h3>
                     
                     <div class="datetime-picker">
@@ -339,16 +417,19 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary btn-next" disabled data-next="2">
-                        <span>Continue</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </button>
+                    <div class="step-actions">
+                        <button type="button" class="btn btn-ghost btn-back" data-back="1">Back</button>
+                        <button class="btn btn-primary btn-next" disabled data-next="3">
+                            <span>Continue</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Step 2: Contact Details -->
-                <div class="booking-step hidden" id="step2">
+                <!-- Step 3: Contact Details -->
+                <div class="booking-step hidden" id="step3">
                     <h3 class="step-title">Your details</h3>
                     
                     <form class="details-form" id="bookingForm">
@@ -375,6 +456,10 @@
                         <div class="booking-summary">
                             <h4>Your Appointment</h4>
                             <div class="summary-row">
+                                <span class="summary-label">Barber</span>
+                                <span class="summary-value" id="summaryBarber">-</span>
+                            </div>
+                            <div class="summary-row">
                                 <span class="summary-label">Date</span>
                                 <span class="summary-value" id="summaryDate">-</span>
                             </div>
@@ -385,7 +470,7 @@
                         </div>
 
                         <div class="step-actions">
-                            <button type="button" class="btn btn-ghost btn-back" data-back="1">Back</button>
+                            <button type="button" class="btn btn-ghost btn-back" data-back="2">Back</button>
                             <button type="submit" class="btn btn-primary">
                                 <span>Confirm Booking</span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -407,10 +492,69 @@
                         <h3>You're booked!</h3>
                         <p>We've sent a confirmation to your email. See you soon.</p>
                         <div class="success-details">
+                            <span id="successBarber"></span>
                             <span id="successDateTime"></span>
                         </div>
                         <button class="btn btn-ghost" id="bookAnother">Book Another</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Map Section -->
+    <section id="location" class="location">
+        <div class="container">
+            <div class="section-header center">
+                <span class="section-tag">Find Us</span>
+                <h2 class="section-title">Our Location</h2>
+            </div>
+            <div class="map-container" id="mapContainer">
+                <iframe 
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=-74.006%2C40.7128%2C-73.996%2C40.7188&layer=mapnik&marker=40.7158%2C-74.001"
+                    class="map-embed"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <div class="map-overlay" id="mapOverlay">
+                    <div class="map-overlay-content">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <span>Click for directions</span>
+                    </div>
+                </div>
+                <!-- Directions Modal -->
+                <div class="directions-modal" id="directionsModal">
+                    <div class="directions-content">
+                        <h4>Get Directions</h4>
+                        <p>428 Main Street, Suite 12</p>
+                        <div class="directions-buttons">
+                            <a href="https://maps.apple.com/?daddr=428+Main+Street+Downtown" target="_blank" class="directions-btn apple">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                                </svg>
+                                <span>Apple Maps</span>
+                            </a>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=428+Main+Street+Downtown" target="_blank" class="directions-btn google">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                                <span>Google Maps</span>
+                            </a>
+                        </div>
+                        <button class="directions-close" id="directionsClose">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="location-info">
+                <div class="location-address">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span>428 Main Street, Suite 12, Downtown</span>
                 </div>
             </div>
         </div>

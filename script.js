@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initBookingSystem();
     initInteractiveEffects();
     initLightbox();
+    initMapDirections();
 });
 
 // ============================================
@@ -98,6 +99,35 @@ function initScrollAnimations() {
     );
     
     animatedElements.forEach(el => observer.observe(el));
+}
+
+// ============================================
+// MAP DIRECTIONS
+// ============================================
+function initMapDirections() {
+    const mapContainer = document.getElementById('mapContainer');
+    const mapOverlay = document.getElementById('mapOverlay');
+    const directionsModal = document.getElementById('directionsModal');
+    const directionsClose = document.getElementById('directionsClose');
+    
+    if (!mapContainer || !directionsModal) return;
+    
+    // Open directions modal when clicking map
+    mapOverlay.addEventListener('click', () => {
+        directionsModal.classList.add('active');
+    });
+    
+    // Close modal
+    directionsClose.addEventListener('click', () => {
+        directionsModal.classList.remove('active');
+    });
+    
+    // Close when clicking outside the content
+    directionsModal.addEventListener('click', (e) => {
+        if (e.target === directionsModal) {
+            directionsModal.classList.remove('active');
+        }
+    });
 }
 
 // ============================================
@@ -200,34 +230,43 @@ function initLightbox() {
 // INTERACTIVE EFFECTS
 // ============================================
 function initInteractiveEffects() {
-    // Parallax orbs on mouse move
+    // Floating orbs follow mouse
     const hero = document.querySelector('.hero');
     const orbs = document.querySelectorAll('.orb');
+    
+    // Store original positions
+    const originalPositions = [];
+    orbs.forEach(orb => {
+        originalPositions.push({
+            top: parseFloat(getComputedStyle(orb).top),
+            left: parseFloat(getComputedStyle(orb).left)
+        });
+    });
     
     if (hero && orbs.length > 0) {
         hero.addEventListener('mousemove', (e) => {
             const rect = hero.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
             
+            // Move orbs toward mouse position
             orbs.forEach((orb, index) => {
-                const speed = (index + 1) * 15;
-                const xMove = x * speed;
-                const yMove = y * speed;
-                orb.style.transform = `translate(${xMove}px, ${yMove}px)`;
+                const speed = 0.08 + (index * 0.03); // Different speeds for depth
+                const origPos = originalPositions[index];
+                
+                const newLeft = origPos.left + (mouseX - origPos.left) * speed;
+                const newTop = origPos.top + (mouseY - origPos.top) * speed;
+                
+                orb.style.left = `${newLeft}px`;
+                orb.style.top = `${newTop}px`;
             });
         });
         
         hero.addEventListener('mouseleave', () => {
-            orbs.forEach(orb => {
-                orb.style.transform = 'translate(0, 0)';
-                orb.style.transition = 'transform 0.5s ease-out';
-            });
-        });
-        
-        hero.addEventListener('mouseenter', () => {
-            orbs.forEach(orb => {
-                orb.style.transition = 'transform 0.1s ease-out';
+            orbs.forEach((orb, index) => {
+                const origPos = originalPositions[index];
+                orb.style.left = `${origPos.left}px`;
+                orb.style.top = `${origPos.top}px`;
             });
         });
     }
@@ -254,11 +293,13 @@ function initInteractiveEffects() {
 }
 
 // ============================================
-// BOOKING SYSTEM (Simplified - No Services)
+// BOOKING SYSTEM
 // ============================================
 function initBookingSystem() {
     const bookingState = {
         currentStep: 1,
+        barber: null,
+        barberName: null,
         date: null,
         time: null,
         currentMonth: new Date().getMonth(),
@@ -292,6 +333,18 @@ function initBookingSystem() {
     
     // Initialize calendar
     initCalendar();
+    
+    // Barber selection
+    const barberOptions = document.querySelectorAll('input[name="barber"]');
+    const step1NextBtn = document.querySelector('#step1 .btn-next');
+    
+    barberOptions.forEach(option => {
+        option.addEventListener('change', (e) => {
+            bookingState.barber = e.target.value;
+            bookingState.barberName = e.target.closest('.barber-option').querySelector('.barber-name').textContent;
+            step1NextBtn.disabled = false;
+        });
+    });
     
     // Step navigation
     document.querySelectorAll('.btn-next').forEach(btn => {
@@ -328,13 +381,14 @@ function initBookingSystem() {
         });
         document.getElementById(`step${step}`).classList.remove('hidden');
         
-        // Update summary when going to step 2
-        if (step === 2) {
+        // Update summary when going to step 3
+        if (step === 3) {
             updateSummary();
         }
     }
     
     function updateSummary() {
+        document.getElementById('summaryBarber').textContent = bookingState.barberName || '-';
         document.getElementById('summaryDate').textContent = bookingState.date ? 
             bookingState.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : '-';
         document.getElementById('summaryTime').textContent = bookingState.time || '-';
@@ -453,7 +507,7 @@ function initBookingSystem() {
         renderTimeSlots(date);
         
         // Disable next button until time is selected
-        document.querySelector('#step1 .btn-next').disabled = true;
+        document.querySelector('#step2 .btn-next').disabled = true;
     }
     
     function renderTimeSlots(date) {
@@ -485,7 +539,7 @@ function initBookingSystem() {
         element.classList.add('selected');
         
         // Enable next button
-        document.querySelector('#step1 .btn-next').disabled = false;
+        document.querySelector('#step2 .btn-next').disabled = false;
     }
     
     // Form submission
@@ -509,6 +563,7 @@ function initBookingSystem() {
             document.getElementById('stepSuccess').classList.remove('hidden');
             
             // Update success details
+            document.getElementById('successBarber').textContent = `with ${bookingState.barberName}`;
             document.getElementById('successDateTime').textContent = 
                 `${bookingState.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at ${bookingState.time}`;
             
@@ -532,19 +587,25 @@ function initBookingSystem() {
     if (bookAnotherBtn) {
         bookAnotherBtn.addEventListener('click', () => {
             // Reset state
+            bookingState.barber = null;
+            bookingState.barberName = null;
             bookingState.date = null;
             bookingState.time = null;
             
             // Reset form
             form.reset();
             
+            // Reset barber selection
+            barberOptions.forEach(opt => opt.checked = false);
+            step1NextBtn.disabled = true;
+            
             // Reset time slots
             document.querySelector('.time-slots').innerHTML = 
                 '<p class="time-placeholder">Choose a date to see available times</p>';
             document.querySelector('.selected-date-display').textContent = 'Select a date';
             
-            // Disable continue button
-            document.querySelector('#step1 .btn-next').disabled = true;
+            // Disable continue button for step 2
+            document.querySelector('#step2 .btn-next').disabled = true;
             
             // Go back to step 1
             goToStep(1);
