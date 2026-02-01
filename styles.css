@@ -870,6 +870,14 @@ a {
     .lightbox-placeholder {
         width: 85vw;
     }
+    
+    .lightbox-title {
+        font-size: 1rem;
+    }
+    
+    .lightbox-info {
+        gap: 0.75rem;
+    }
 }
 
 /* ============================================
@@ -1785,6 +1793,19 @@ a {
 }
 
 @media (max-width: 768px) {
+    /* Reduce section padding */
+    .about, .work, .booking, .location {
+        padding: 4rem 0;
+    }
+    
+    .section-header {
+        margin-bottom: 2rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
     .nav-links {
         display: none;
     }
@@ -1799,10 +1820,21 @@ a {
     
     .barber-grid {
         grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .barber-card {
+        padding: 1rem;
+    }
+    
+    .barber-avatar {
+        width: 48px;
+        height: 48px;
     }
     
     .datetime-picker {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     .booking-steps {
@@ -1816,31 +1848,317 @@ a {
     
     .footer-info {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .footer {
+        padding: 3rem 0 1.5rem;
+    }
+    
+    .footer-grid {
         gap: 2rem;
+        margin-bottom: 2rem;
     }
     
     .hero-stats {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
     }
     
     .stat-divider {
         display: none;
     }
+    
+    .hero-stat {
+        align-items: center;
+        text-align: center;
+    }
+    
+    /* Hero - full viewport height on mobile */
+    .hero {
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .hero-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .hero-description {
+        font-size: 1.0625rem;
+        margin-bottom: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-badge {
+        margin-bottom: 1.25rem;
+    }
+    
+    .hero-actions {
+        justify-content: center;
+        margin-bottom: 2.5rem;
+    }
+    
+    /* About - larger images */
+    .about-images {
+        display: flex;
+        gap: 1rem;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0;
+    }
+    
+    .about-img {
+        flex: 1;
+        aspect-ratio: 3/4;
+        min-height: 280px;
+    }
+    
+    .about-img:first-child {
+        transform: translateY(1rem);
+    }
+    
+    .about-img:last-child {
+        transform: translateY(-1rem);
+    }
+    
+    .about-content {
+        text-align: center;
+    }
+    
+    .about-features {
+        align-items: center;
+        margin-top: 1.5rem;
+    }
+    
+    .about-text {
+        font-size: 0.9375rem;
+    }
+    
+    /* Compact work grid */
+    .work-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 120px);
+        gap: 0.75rem;
+    }
+    
+    /* Compact booking */
+    .booking-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .booking-subtitle {
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+    }
+    
+    .booking-app {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+    }
+    
+    .booking-steps {
+        margin-bottom: 1.25rem;
+    }
+    
+    .step-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.6875rem;
+    }
+    
+    .step-label {
+        font-size: 0.75rem;
+    }
+    
+    .step-title {
+        font-size: 1rem;
+        margin-bottom: 0.875rem;
+    }
+    
+    .calendar-container, .time-container {
+        padding: 0.875rem;
+    }
+    
+    .calendar-header {
+        margin-bottom: 0.75rem;
+    }
+    
+    .cal-month-year {
+        font-size: 0.875rem;
+    }
+    
+    .cal-nav {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .cal-day {
+        font-size: 0.75rem;
+    }
+    
+    .calendar-weekdays {
+        margin-bottom: 0.25rem;
+    }
+    
+    .calendar-weekdays span {
+        font-size: 0.5625rem;
+        padding: 0.25rem 0;
+    }
+    
+    .calendar-days {
+        gap: 0.125rem;
+    }
+    
+    .time-header {
+        margin-bottom: 0.75rem;
+    }
+    
+    .selected-date-display {
+        font-size: 0.875rem;
+    }
+    
+    .time-slots {
+        max-height: 150px;
+        gap: 0.375rem;
+    }
+    
+    .time-slot {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .barber-card {
+        padding: 0.875rem;
+    }
+    
+    .barber-avatar {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .barber-name {
+        font-size: 0.9375rem;
+    }
+    
+    .barber-specialty {
+        font-size: 0.75rem;
+    }
+    
+    .booking-summary {
+        padding: 0.875rem;
+        margin-bottom: 0.875rem;
+    }
+    
+    .booking-summary h4 {
+        font-size: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .summary-row {
+        padding: 0.5rem 0;
+    }
+    
+    .summary-label, .summary-value {
+        font-size: 0.875rem;
+    }
+    
+    .form-group label {
+        font-size: 0.75rem;
+    }
+    
+    .form-group {
+        gap: 0.375rem;
+    }
+    
+    .details-form {
+        gap: 1rem;
+    }
+    
+    /* Compact map */
+    .map-embed {
+        height: 280px;
+    }
+    
+    .location-info {
+        margin-top: 1rem;
+    }
+    
+    .location-address {
+        font-size: 0.875rem;
+    }
 }
 
 @media (max-width: 480px) {
+    /* Keep sections compact but not too tight */
+    .about, .work, .booking, .location {
+        padding: 3.5rem 0;
+    }
+    
+    /* Hero stays full height */
+    .hero {
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding-top: 5rem;
+    }
+    
+    .hero-title {
+        font-size: 2.25rem;
+    }
+    
     .hero-actions {
         flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .hero-stats {
+        gap: 1.25rem;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+    }
+    
+    .stat-label {
+        font-size: 0.6875rem;
+    }
+    
+    .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.875rem;
     }
     
     .form-row {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        padding: 0.75rem;
     }
     
     .step-actions {
         flex-direction: column;
+        gap: 0.75rem;
     }
     
     .btn-back {
@@ -1848,21 +2166,49 @@ a {
     }
     
     .booking-app {
-        padding: 1.5rem;
+        padding: 1.25rem;
     }
     
     .work-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 100px);
+        gap: 0.5rem;
     }
     
     .work-item:first-child {
-        grid-column: span 1;
+        grid-column: span 2;
         grid-row: span 1;
-        aspect-ratio: 16/9;
     }
     
-    .work-item {
-        aspect-ratio: 16/9;
+    /* About images - keep them large */
+    .about-images {
+        max-width: 100%;
+        gap: 0.5rem;
+    }
+    
+    .about-img {
+        min-height: 240px;
+    }
+    
+    .footer-brand p {
+        font-size: 0.875rem;
+    }
+    
+    .info-block p {
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+    
+    .map-embed {
+        height: 220px;
+    }
+    
+    .map-overlay-content svg {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .map-overlay-content span {
+        font-size: 0.875rem;
     }
 }
