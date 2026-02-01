@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initScrollAnimations();
     initBookingSystem();
+    initInteractiveEffects();
 });
 
 // ============================================
@@ -96,6 +97,63 @@ function initScrollAnimations() {
     );
     
     animatedElements.forEach(el => observer.observe(el));
+}
+
+// ============================================
+// INTERACTIVE EFFECTS
+// ============================================
+function initInteractiveEffects() {
+    // Parallax orbs on mouse move
+    const hero = document.querySelector('.hero');
+    const orbs = document.querySelectorAll('.orb');
+    
+    if (hero && orbs.length > 0) {
+        hero.addEventListener('mousemove', (e) => {
+            const rect = hero.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 15;
+                const xMove = x * speed;
+                const yMove = y * speed;
+                orb.style.transform = `translate(${xMove}px, ${yMove}px)`;
+            });
+        });
+        
+        hero.addEventListener('mouseleave', () => {
+            orbs.forEach(orb => {
+                orb.style.transform = 'translate(0, 0)';
+                orb.style.transition = 'transform 0.5s ease-out';
+            });
+        });
+        
+        hero.addEventListener('mouseenter', () => {
+            orbs.forEach(orb => {
+                orb.style.transition = 'transform 0.1s ease-out';
+            });
+        });
+    }
+    
+    // Subtle card tilt on hover (work items only)
+    const workItems = document.querySelectorAll('.work-item');
+    
+    workItems.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+            
+            const tiltX = (y - 0.5) * 5;
+            const tiltY = (x - 0.5) * -5;
+            
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        });
+    });
 }
 
 // ============================================

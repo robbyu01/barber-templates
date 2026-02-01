@@ -287,11 +287,54 @@ a {
     position: absolute;
     inset: 0;
     background-image: 
-        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0, 212, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.015) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse 70% 50% at 30% 50%, black, transparent);
     pointer-events: none;
+}
+
+/* Floating Orbs */
+.floating-orbs {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.08;
+    filter: blur(40px);
+    animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    right: 10%;
+    animation-delay: -7s;
+    animation-duration: 25s;
+}
+
+.orb-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 20%;
+    left: 30%;
+    animation-delay: -14s;
+    animation-duration: 18s;
 }
 
 .hero-badge {
@@ -428,6 +471,38 @@ a {
     border-radius: var(--radius-xl);
     z-index: -1;
     filter: blur(60px);
+    animation: gentle-pulse 8s ease-in-out infinite;
+    transition: transform 0.3s var(--ease);
+}
+
+/* Scan Line Effect */
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.15;
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.15;
+    }
+    95% {
+        opacity: 0.15;
+    }
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
 }
 
 /* ============================================
@@ -484,6 +559,7 @@ a {
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--border);
+    transition: all 0.4s var(--ease);
 }
 
 .about-img:first-child {
@@ -492,6 +568,10 @@ a {
 
 .about-img:last-child {
     transform: translateY(-2rem);
+}
+
+.about-img:hover {
+    border-color: var(--border-light);
 }
 
 .img-placeholder {
@@ -561,7 +641,8 @@ a {
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--border);
-    transition: all 0.4s var(--ease);
+    transition: all 0.4s var(--ease), transform 0.15s ease-out;
+    transform-style: preserve-3d;
 }
 
 .work-item:first-child {
@@ -572,6 +653,14 @@ a {
 .work-item:hover {
     border-color: var(--accent);
     box-shadow: 0 0 30px var(--accent-dim);
+}
+
+.work-item .img-placeholder {
+    transition: transform 0.4s var(--ease);
+}
+
+.work-item:hover .img-placeholder {
+    transform: scale(1.02);
 }
 
 .work-item .img-placeholder {
@@ -1148,6 +1237,32 @@ a {
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    25% {
+        transform: translate(30px, -20px) scale(1.05);
+    }
+    50% {
+        transform: translate(-20px, 20px) scale(0.95);
+    }
+    75% {
+        transform: translate(20px, 30px) scale(1.02);
+    }
+}
+
+@keyframes gentle-pulse {
+    0%, 100% {
+        opacity: 0.08;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.12;
+        transform: scale(1.1);
+    }
 }
 
 /* Scroll Animations */
