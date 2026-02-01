@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollAnimations();
     initBookingSystem();
     initInteractiveEffects();
+    initLightbox();
 });
 
 // ============================================
@@ -97,6 +98,102 @@ function initScrollAnimations() {
     );
     
     animatedElements.forEach(el => observer.observe(el));
+}
+
+// ============================================
+// LIGHTBOX
+// ============================================
+function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const closeBtn = document.querySelector('.lightbox-close');
+    const prevBtn = document.querySelector('.lightbox-prev');
+    const nextBtn = document.querySelector('.lightbox-next');
+    const workItems = document.querySelectorAll('.work-item');
+    
+    let currentIndex = 0;
+    const items = Array.from(workItems);
+    
+    // Open lightbox
+    workItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            currentIndex = index;
+            openLightbox();
+        });
+    });
+    
+    function openLightbox() {
+        const item = items[currentIndex];
+        const title = item.dataset.title || `Image ${currentIndex + 1}`;
+        const imageSrc = item.dataset.image;
+        
+        // Update content
+        lightboxTitle.textContent = title;
+        lightboxCounter.textContent = `${currentIndex + 1} / ${items.length}`;
+        
+        // If there's an actual image, show it; otherwise show placeholder
+        if (imageSrc) {
+            lightboxImage.innerHTML = `<img src="${imageSrc}" alt="${title}">`;
+        } else {
+            lightboxImage.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                </svg>
+                <span>${title}</span>
+            `;
+        }
+        
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % items.length;
+        openLightbox();
+    }
+    
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        openLightbox();
+    }
+    
+    // Event listeners
+    closeBtn.addEventListener('click', closeLightbox);
+    nextBtn.addEventListener('click', nextImage);
+    prevBtn.addEventListener('click', prevImage);
+    
+    // Close on background click
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        
+        switch (e.key) {
+            case 'Escape':
+                closeLightbox();
+                break;
+            case 'ArrowRight':
+                nextImage();
+                break;
+            case 'ArrowLeft':
+                prevImage();
+                break;
+        }
+    });
 }
 
 // ============================================
